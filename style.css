@@ -5,22 +5,46 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  background: radial-gradient(circle at 20% 30%, #0f2027 10%, #203a43 30%, #2c5364 70%);
   color: #ffffff;
   line-height: 1.6;
-  scroll-behavior: smooth;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Background glow animation */
+body::before {
+  content: '';
+  position: fixed;
+  top: -30%;
+  left: -30%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(0, 255, 255, 0.1), transparent 70%);
+  animation: rotateBg 30s linear infinite;
+  z-index: -1;
+}
+
+@keyframes rotateBg {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 a {
   color: #8be9fd;
   text-decoration: none;
-  transition: 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 a:hover {
   color: #50fa7b;
+  text-shadow: 0 0 5px #50fa7b;
 }
 
 /* Glassy header */
@@ -41,11 +65,29 @@ a:hover {
 .glass-header h1 {
   font-weight: 700;
   color: #ffffff;
+  letter-spacing: 1px;
 }
 
 .glass-header nav a {
   margin-left: 1.5rem;
   font-weight: 500;
+  position: relative;
+}
+
+.glass-header nav a::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 2px;
+  background: #8be9fd;
+  transition: width 0.3s;
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+}
+
+.glass-header nav a:hover::after {
+  width: 100%;
 }
 
 /* Hero section */
@@ -58,24 +100,32 @@ a:hover {
   text-align: center;
   padding: 0 2rem;
   margin-top: 5rem;
+  animation: fadeIn 1.5s ease-in-out;
 }
 
 .hero h2 {
-  font-size: 2.5rem;
+  font-size: 2.8rem;
   margin-bottom: 1rem;
   color: #f8f8f2;
+  max-width: 800px;
 }
 
 .hero p {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   color: #bbbbbb;
 }
 
-/* Sections */
+/* Section container */
 .section {
   padding: 4rem 2rem;
   max-width: 900px;
   margin: auto;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(5px);
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  margin-top: 3rem;
+  animation: fadeInUp 1s ease both;
 }
 
 .section h3 {
@@ -99,19 +149,53 @@ a:hover {
   border-radius: 8px;
   text-align: center;
   font-weight: 500;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, background 0.3s ease;
 }
 
 .tech-list li:hover {
-  transform: scale(1.05);
+  transform: translateY(-4px) scale(1.05);
   background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 10px #8be9fd33;
 }
 
-/* Footer */
+/* Contact & footer */
 footer {
   text-align: center;
   padding: 2rem 1rem;
   font-size: 0.9rem;
   color: #888888;
   background: #111;
+  margin-top: 4rem;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  0% { opacity: 0; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .hero h2 {
+    font-size: 1.8rem;
+  }
+
+  .glass-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .glass-header nav {
+    margin-top: 0.5rem;
+  }
+
+  .glass-header nav a {
+    margin: 0 1rem 0.5rem 0;
+    display: inline-block;
+  }
 }
